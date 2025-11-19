@@ -1,0 +1,24 @@
+# React .dockerignore
+node_modules/
+dist/
+.git
+.gitignore
+.env
+.env.local
+.env.development
+.env.production
+.vscode/
+.idea/
+*.md
+README.md
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.DS_Store
+Thumbs.db
+coverage/
+.nyc_output/
+docker-compose.yml
+Dockerfile
+.dockerignore
