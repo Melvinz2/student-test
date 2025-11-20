@@ -24,16 +24,6 @@ RUN docker-php-ext-install pdo pdo_sqlite mbstring exif pcntl bcmath gd
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copy composer files first for better caching
-COPY composer.json composer.lock* ./
-
-# Install dependencies
-RUN if [ -f composer.lock ]; then \
-        composer install --no-dev --optimize-autoloader --no-interaction; \
-    else \
-        composer install --no-dev --optimize-autoloader --no-interaction --no-scripts; \
-    fi
-
 # Copy existing application directory
 COPY . /var/www/html
 
@@ -42,6 +32,9 @@ COPY docker/nginx/default.conf /etc/nginx/http.d/default.conf
 
 # Copy supervisor configuration
 COPY docker/supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Install Composer dependencies
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
 
 # Create storage and cache directories
 RUN mkdir -p storage/logs storage/framework/cache storage/framework/sessions storage/framework/views \
