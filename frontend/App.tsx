@@ -39,7 +39,7 @@ function App() {
     return (
         <div className="min-h-screen bg-terminal-bg flex items-center justify-center text-terminal-green font-mono flex-col gap-2">
             <div className="w-12 h-12 border-4 border-terminal-green border-t-transparent rounded-full animate-spin"></div>
-            <span className="animate-pulse mt-4">> Establishing Secure Connection...</span>
+            <span className="animate-pulse mt-4">&gt; Establishing Secure Connection...</span>
         </div>
     );
   }
