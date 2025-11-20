@@ -71,13 +71,13 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
             
             {loading && (
               <div className="mt-4 text-terminal-blue animate-pulse">
-                > Verifying credentials with server...
+                &gt; Verifying credentials with server...
               </div>
             )}
 
             {error && (
               <div className="mt-4 text-red-500">
-                > Error: {error}
+                &gt; Error: {error}
               </div>
             )}
           </div>

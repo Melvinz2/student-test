@@ -82,7 +82,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, student, on
             onClick={() => setActiveTab('terminal')}
             className={`px-6 py-3 text-sm font-medium font-mono transition-colors ${activeTab === 'terminal' ? 'text-terminal-green border-b-2 border-terminal-green bg-terminal-bg' : 'text-gray-400 hover:text-gray-200'}`}
           >
-            >_ TERMINAL
+            &gt;_ TERMINAL
           </button>
           <button 
             onClick={() => setActiveTab('ai')}
