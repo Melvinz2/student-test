@@ -24,6 +24,16 @@ RUN docker-php-ext-install pdo pdo_sqlite mbstring exif pcntl bcmath gd
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# Copy composer files first for better caching
+COPY composer.json composer.lock* ./
+
+# Install dependencies
+RUN if [ -f composer.lock ]; then \
+        composer install --no-dev --optimize-autoloader --no-interaction; \
+    else \
+        composer install --no-dev --optimize-autoloader --no-interaction --no-scripts; \
+    fi
+
 # Copy existing application directory
 COPY . /var/www/html
 
@@ -33,17 +43,17 @@ COPY docker/nginx/default.conf /etc/nginx/http.d/default.conf
 # Copy supervisor configuration
 COPY docker/supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Install dependencies
-RUN composer install --no-dev --optimize-autoloader --no-interaction
-
 # Create storage and cache directories
 RUN mkdir -p storage/logs storage/framework/cache storage/framework/sessions storage/framework/views \
-    && mkdir -p bootstrap/cache
+    && mkdir -p bootstrap/cache \
+    && mkdir -p /var/log/supervisor \
+    && mkdir -p /var/run
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html/storage \
-    && chmod -R 755 /var/www/html/bootstrap/cache
+    && chmod -R 755 /var/www/html/bootstrap/cache \
+    && chmod -R 755 /var/log/supervisor
 
 # Generate application key (will be overridden by env)
 RUN php artisan config:cache \
